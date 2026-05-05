@@ -1,0 +1,361 @@
+/* Root Variables */
+.root {
+    -fx-font-family: "Segoe UI", "Consolas", sans-serif;
+    -fx-background-color: #1a1a2e;
+    -fx-base: #16213e;
+    -fx-background: #1a1a2e;
+}
+
+/* Menu Bar */
+.menu-bar {
+    -fx-background-color: #0f3460;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-padding: 0;
+    -fx-border-color: transparent;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 10, 0.0, 0, 4);
+}
+
+.menu-bar .menu {
+    -fx-text-fill: #e8e8e8;
+    -fx-background-color: transparent;
+    -fx-padding: 10px 15px;
+    -fx-cursor: hand;
+}
+
+.menu-bar .menu:hover {
+    -fx-background-color: #1a1a40;
+    -fx-background-radius: 0;
+}
+
+.menu-bar .menu:showing {
+    -fx-background-color: #1a1a40;
+}
+
+.menu-bar .menu .label {
+    -fx-text-fill: #e8e8e8;
+}
+
+.menu-item {
+    -fx-padding: 8px 15px;
+    -fx-background-color: #16213e;
+    -fx-cursor: hand;
+    -fx-font-size: 13px;
+}
+
+.menu-item:hover {
+    -fx-background-color: #0f3460;
+    -fx-background-radius: 0;
+    -fx-text-fill: #e94560;
+}
+
+.menu-item .label {
+    -fx-text-fill: #d1d1d1;
+}
+
+.menu-item:hover .label {
+    -fx-text-fill: #ffffff;
+}
+
+.context-menu {
+    -fx-background-color: #16213e;
+    -fx-border-color: #0f3460;
+    -fx-border-width: 2px;
+    -fx-border-radius: 4px;
+    -fx-background-radius: 4px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 10, 0.0, 0, 5);
+    -fx-padding: 5px;
+}
+
+.menu:disabled .label {
+    -fx-text-fill: #6b6b8d;
+}
+
+.menu:disabled {
+    -fx-opacity: 0.6;
+}
+
+/* Error Label */
+.label#errorLabel {
+    -fx-font-weight: bold;
+    -fx-font-size: 13px;
+    -fx-text-fill: #e94560;
+    -fx-padding: 5px 0;
+}
+
+/* TreeView */
+.tree-view {
+    -fx-background-color: #16213e;
+    -fx-border-color: #0f3460;
+    -fx-border-width: 2px;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 10, 0.0, 0, 5);
+}
+
+.tree-view:focused {
+    -fx-border-color: #e94560;
+}
+
+.tree-view .tree-cell {
+    -fx-text-fill: #e8e8e8;
+    -fx-font-size: 13px;
+    -fx-background-color: transparent;
+    -fx-padding: 5px 10px;
+    -fx-cursor: hand;
+    -fx-transition: all 0.2s ease;
+}
+
+.tree-view .tree-cell:hover {
+    -fx-background-color: #1a1a40;
+    -fx-text-fill: #ffffff;
+}
+
+.tree-view .tree-cell:selected {
+    -fx-background-color: #0f3460;
+    -fx-text-fill: #e94560;
+    -fx-font-weight: bold;
+}
+
+.tree-view .tree-cell:selected:hover {
+    -fx-background-color: #0f3460;
+}
+
+.tree-view .tree-cell .tree-disclosure-node .arrow {
+    -fx-background-color: #e94560;
+}
+
+.tree-view .tree-cell:hover .tree-disclosure-node .arrow {
+    -fx-background-color: #ff6b81;
+}
+
+.tree-view .virtual-flow .scroll-bar:vertical {
+    -fx-background-color: #16213e;
+}
+
+.tree-view .virtual-flow .scroll-bar:vertical .track {
+    -fx-background-color: #0f3460;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+}
+
+.tree-view .virtual-flow .scroll-bar:vertical .thumb {
+    -fx-background-color: #e94560;
+    -fx-background-radius: 5px;
+}
+
+.tree-view .virtual-flow .scroll-bar:vertical .thumb:hover {
+    -fx-background-color: #ff6b81;
+}
+
+.tree-view .virtual-flow .scroll-bar:vertical .increment-button,
+.tree-view .virtual-flow .scroll-bar:vertical .decrement-button {
+    -fx-background-color: #16213e;
+}
+
+.tree-view .virtual-flow .scroll-bar:vertical .increment-arrow,
+.tree-view .virtual-flow .scroll-bar:vertical .decrement-arrow {
+    -fx-background-color: #e94560;
+}
+
+/* Buttons */
+.button {
+    -fx-background-color: #0f3460;
+    -fx-text-fill: #e8e8e8;
+    -fx-font-weight: bold;
+    -fx-background-radius: 6px;
+    -fx-border-radius: 6px;
+    -fx-border-color: transparent;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 5, 0.0, 0, 3);
+    -fx-transition: all 0.3s ease;
+    -fx-padding: 8px 15px;
+}
+
+.button:hover {
+    -fx-background-color: #1a5c8f;
+    -fx-text-fill: #ffffff;
+    -fx-border-color: #e94560;
+    -fx-border-width: 2px;
+    -fx-scale-x: 1.02;
+    -fx-scale-y: 1.02;
+    -fx-effect: dropshadow(gaussian, rgba(233, 69, 96, 0.3), 15, 0.0, 0, 8);
+}
+
+.button:pressed {
+    -fx-background-color: #0f3460;
+    -fx-scale-x: 0.98;
+    -fx-scale-y: 0.98;
+    -fx-effect: dropshadow(gaussian, rgba(233, 69, 96, 0.5), 10, 0.0, 0, 5);
+}
+
+.button:focused {
+    -fx-border-color: #e94560;
+    -fx-border-width: 2px;
+}
+
+#selectBtn {
+    -fx-background-color: #0f3460;
+}
+
+#selectBtn:hover {
+    -fx-background-color: #1a5c8f;
+}
+
+#convertBtn {
+    -fx-background-color: #533483;
+}
+
+#convertBtn:hover {
+    -fx-background-color: #6b4aa1;
+    -fx-border-color: #ff6b81;
+}
+
+#structureBtn {
+    -fx-background-color: #1a8a5c;
+}
+
+#structureBtn:hover {
+    -fx-background-color: #24b576;
+    -fx-border-color: #00e676;
+    -fx-scale-x: 1.0;
+    -fx-scale-y: 1.0;
+}
+
+/* Progress Bar */
+.progress-bar {
+    -fx-accent: #e94560;
+    -fx-background-color: transparent;
+    -fx-padding: 5px 0;
+}
+
+.progress-bar .track {
+    -fx-background-color: #16213e;
+    -fx-border-color: #0f3460;
+    -fx-border-width: 2px;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+}
+
+.progress-bar .bar {
+    -fx-background-color: linear-gradient(to right, #e94560, #ff6b81);
+    -fx-background-radius: 8px;
+    -fx-effect: dropshadow(gaussian, rgba(233, 69, 96, 0.6), 10, 0.0, 0, 5);
+}
+
+/* ImageView Settings */
+#settingsView {
+    -fx-opacity: 0.7;
+    -fx-transition: all 0.3s ease;
+}
+
+#settingsView:hover {
+    -fx-opacity: 1.0;
+    -fx-effect: dropshadow(gaussian, rgba(233, 69, 96, 0.7), 15, 0.0, 0, 8);
+}
+
+/* ScrollPane (if needed) */
+.scroll-pane {
+    -fx-background-color: transparent;
+}
+
+.scroll-pane .viewport {
+    -fx-background-color: transparent;
+}
+
+.scroll-pane .scroll-bar:horizontal .track,
+.scroll-pane .scroll-bar:vertical .track {
+    -fx-background-color: #16213e;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+}
+
+.scroll-pane .scroll-bar:horizontal .thumb,
+.scroll-pane .scroll-bar:vertical .thumb {
+    -fx-background-color: #e94560;
+    -fx-background-radius: 5px;
+}
+
+.scroll-pane .scroll-bar:horizontal .thumb:hover,
+.scroll-pane .scroll-bar:vertical .thumb:hover {
+    -fx-background-color: #ff6b81;
+}
+
+/* Separator (if needed) */
+.separator .line {
+    -fx-border-color: #0f3460;
+    -fx-border-width: 1px;
+}
+
+/* Tooltip */
+.tooltip {
+    -fx-background-color: #0f3460;
+    -fx-text-fill: #e8e8e8;
+    -fx-font-size: 12px;
+    -fx-background-radius: 5px;
+    -fx-padding: 8px 12px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 10, 0.0, 0, 5);
+}
+
+/* Overall VBox styling */
+.vbox {
+    -fx-background-color: #1a1a2e;
+}
+
+/* HBox styling */
+.hbox {
+    -fx-spacing: 10px;
+}
+
+/* Animations via CSS (pseudo) */
+.button {
+    -fx-transition-duration: 0.3s;
+}
+
+.tree-cell {
+    -fx-transition-duration: 0.2s;
+}
+
+/* Focus highlighting */
+.text-field, .text-area {
+    -fx-background-color: #16213e;
+    -fx-border-color: #0f3460;
+    -fx-border-width: 2px;
+    -fx-border-radius: 6px;
+    -fx-background-radius: 6px;
+    -fx-text-fill: #e8e8e8;
+    -fx-font-size: 13px;
+}
+
+.text-field:focused, .text-area:focused {
+    -fx-border-color: #e94560;
+}
+
+/* Checkbox/RadioButton (if added later) */
+.check-box {
+    -fx-text-fill: #e8e8e8;
+}
+
+.check-box .box {
+    -fx-background-color: #16213e;
+    -fx-border-color: #0f3460;
+    -fx-border-width: 2px;
+    -fx-border-radius: 4px;
+}
+
+.check-box:selected .mark {
+    -fx-background-color: #e94560;
+}
+
+.radio-button {
+    -fx-text-fill: #e8e8e8;
+}
+
+.radio-button .radio {
+    -fx-background-color: #16213e;
+    -fx-border-color: #0f3460;
+    -fx-border-width: 2px;
+}
+
+.radio-button:selected .dot {
+    -fx-background-color: #e94560;
+}

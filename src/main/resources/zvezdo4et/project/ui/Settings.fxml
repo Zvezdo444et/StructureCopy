@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import java.net.URL?>
+<AnchorPane prefHeight="455.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="zvezdo4et.project.controllers.SettingsController">
+    <stylesheets>
+        <URL value="@Settings.css"/>
+    </stylesheets>
+    <children>
+        <TabPane prefHeight="400.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE">
+            <tabs>
+                <Tab text="Папки/Файлы">
+                    <content>
+                        <VBox prefHeight="200.0" prefWidth="100.0">
+                            <children>
+                                <ListView fx:id="fileListView" prefHeight="310.0" prefWidth="600.0"/>
+                                <HBox prefHeight="10.0" prefWidth="600.0">
+                                    <children>
+                                        <TextField fx:id="fileTextField" prefHeight="40.0" prefWidth="278.0">
+                                            <font>
+                                                <Font size="18.0"/>
+                                            </font>
+                                            <HBox.margin>
+                                                <Insets left="2.0"/>
+                                            </HBox.margin>
+                                        </TextField>
+                                        <Button fx:id="addFileBtn" minHeight="40.0" mnemonicParsing="false"
+                                                onAction="#addFileHande" text="Добавить" textAlignment="CENTER">
+                                            <font>
+                                                <Font name="Consolas" size="18.0"/>
+                                            </font>
+                                            <HBox.margin>
+                                                <Insets left="10.0"/>
+                                            </HBox.margin>
+                                        </Button>
+                                        <Button fx:id="deleteFileBtn" minHeight="40.0" mnemonicParsing="false"
+                                                onAction="#deleteFileHandle" text="Удалить выбранное"
+                                                textAlignment="CENTER">
+                                            <font>
+                                                <Font name="Consolas" size="9.0"/>
+                                            </font>
+                                            <HBox.margin>
+                                                <Insets left="10.0"/>
+                                            </HBox.margin>
+                                        </Button>
+                                    </children>
+                                    <VBox.margin>
+                                        <Insets top="5.0"/>
+                                    </VBox.margin>
+                                </HBox>
+                            </children>
+                        </VBox>
+                    </content>
+                </Tab>
+                <Tab text="Расширения">
+                    <content>
+                        <VBox prefHeight="200.0" prefWidth="100.0">
+                            <children>
+                                <ListView fx:id="extListView" prefHeight="310.0" prefWidth="600.0"/>
+                                <HBox prefHeight="10.0" prefWidth="600.0">
+                                    <children>
+                                        <TextField fx:id="extTextField" prefHeight="40.0" prefWidth="278.0">
+                                            <font>
+                                                <Font size="18.0"/>
+                                            </font>
+                                            <HBox.margin>
+                                                <Insets left="2.0"/>
+                                            </HBox.margin>
+                                        </TextField>
+                                        <Button fx:id="addExtBtn" minHeight="40.0" mnemonicParsing="false"
+                                                onAction="#addExtHandle" text="Добавить" textAlignment="CENTER">
+                                            <font>
+                                                <Font name="Consolas" size="18.0"/>
+                                            </font>
+                                            <HBox.margin>
+                                                <Insets left="10.0"/>
+                                            </HBox.margin>
+                                        </Button>
+                                        <Button fx:id="deleteExtBtn" minHeight="40.0" mnemonicParsing="false"
+                                                onAction="#deleteExtHandle" text="Удалить выбранное"
+                                                textAlignment="CENTER">
+                                            <font>
+                                                <Font name="Consolas" size="18.0"/>
+                                            </font>
+                                            <HBox.margin>
+                                                <Insets left="10.0"/>
+                                            </HBox.margin>
+                                        </Button>
+                                    </children>
+                                    <VBox.margin>
+                                        <Insets top="5.0"/>
+                                    </VBox.margin>
+                                </HBox>
+                            </children>
+                        </VBox>
+                    </content>
+                </Tab>
+            </tabs>
+        </TabPane>
+        <Button fx:id="saveBtn" layoutX="198.0" layoutY="405.0" mnemonicParsing="false" onAction="#saveHandle"
+                prefHeight="31.0" prefWidth="119.0" text="Сохранить" AnchorPane.leftAnchor="100.0"
+                AnchorPane.rightAnchor="100.0">
+            <font>
+                <Font name="Consolas" size="24.0"/>
+            </font>
+        </Button>
+    </children>
+</AnchorPane>

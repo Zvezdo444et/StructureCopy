@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+<?import java.net.URL?>
+<VBox alignment="CENTER" prefHeight="550.0" prefWidth="600.0" spacing="20.0" xmlns="http://javafx.com/javafx/8"
+      xmlns:fx="http://javafx.com/fxml/1" fx:controller="zvezdo4et.project.controllers.CopyController">
+    <stylesheets>
+        <URL value="@StructureCopy.css"/>
+    </stylesheets>
+    <padding>
+        <Insets bottom="20.0"/>
+    </padding>
+    <children>
+        <MenuBar prefHeight="45.0" prefWidth="600.0">
+            <menus>
+                <Menu mnemonicParsing="false" text="Файл">
+                    <items>
+                        <Menu fx:id="lastOpenMenu" mnemonicParsing="false" text="Открыть последнее"/>
+                        <MenuItem mnemonicParsing="false" onAction="#chooseExportPath"
+                                  text="Выбрать папку сохранения шаблонов"/>
+                        <MenuItem mnemonicParsing="false" onAction="#closeApp" text="Закрыть"/>
+                    </items>
+                </Menu>
+                <Menu fx:id="templateMenu" disable="true" mnemonicParsing="false" text="Выбрать">
+                    <items>
+                        <MenuItem mnemonicParsing="false" onAction="#handleMVVM" text="MVVM"/>
+                        <MenuItem mnemonicParsing="false" onAction="#handleMVC" text="MVC"/>
+                        <MenuItem mnemonicParsing="false" onAction="#handleMVP" text="MVP"/>
+                        <MenuItem mnemonicParsing="false" onAction="#handleCleanArch" text="Clean Architecture"/>
+                        <MenuItem mnemonicParsing="false" onAction="#handleWebAPI" text="Web API"/>
+                        <MenuItem mnemonicParsing="false" onAction="#handleUnity" text="Unity"/>
+                        <MenuItem mnemonicParsing="false" onAction="#handleTG" text="Telegram Bot"/>
+                        <MenuItem mnemonicParsing="false" onAction="#handlePlugin" text="Minecraft Plugin"/>
+                        <MenuItem mnemonicParsing="false" onAction="#handleANY" text="Anything"/>
+                    </items>
+                </Menu>
+            </menus>
+            <VBox.margin>
+                <Insets/>
+            </VBox.margin>
+        </MenuBar>
+        <Label fx:id="errorLabel" text="" textFill="RED" visible="false"/>
+        <TreeView fx:id="folderTree" prefHeight="500.0" prefWidth="460.0">
+            <VBox.margin>
+                <Insets left="20.0" right="20.0"/>
+            </VBox.margin>
+        </TreeView>
+        <HBox prefHeight="40.0" prefWidth="500.0">
+            <children>
+                <Button fx:id="selectBtn" onAction="#onDirectoryChooser" prefHeight="27.0" prefWidth="135.0"
+                        text="Выбрать папку" textAlignment="CENTER">
+                    <HBox.margin>
+                        <Insets left="23.0"/>
+                    </HBox.margin>
+                    <font>
+                        <Font name="Consolas" size="13.0"/>
+                    </font>
+                    <cursor>
+                        <Cursor fx:constant="HAND"/>
+                    </cursor>
+                </Button>
+                <Button fx:id="convertBtn" mnemonicParsing="false" onAction="#onConvert" prefHeight="27.0"
+                        prefWidth="149.0" text="Конвертировать" textAlignment="CENTER">
+                    <HBox.margin>
+                        <Insets left="23.0"/>
+                    </HBox.margin>
+                    <font>
+                        <Font name="Consolas" size="14.0"/>
+                    </font>
+                    <cursor>
+                        <Cursor fx:constant="HAND"/>
+                    </cursor>
+                </Button>
+                <Button fx:id="structureBtn" minWidth="180.0" mnemonicParsing="false" onAction="#onExportStructure"
+                        text="Получить структуру" textAlignment="CENTER">
+                    <HBox.margin>
+                        <Insets left="23.0"/>
+                    </HBox.margin>
+                    <font>
+                        <Font name="Consolas" size="14.0"/>
+                    </font>
+                    <cursor>
+                        <Cursor fx:constant="HAND"/>
+                    </cursor>
+                </Button>
+                <ImageView fx:id="settingsView" fitHeight="27.0" fitWidth="27.0" onMouseClicked="#handleImageClick"
+                           pickOnBounds="true" preserveRatio="true">
+                    <HBox.margin>
+                        <Insets left="23.0" top="4"/>
+                    </HBox.margin>
+                    <cursor>
+                        <Cursor fx:constant="HAND"/>
+                    </cursor>
+                </ImageView>
+            </children>
+            <VBox.margin>
+                <Insets/>
+            </VBox.margin>
+        </HBox>
+        <ProgressBar fx:id="progressBar" prefHeight="40.0" prefWidth="234.0" progress="0.0" visible="false">
+            <VBox.margin>
+                <Insets top="-0.0"/>
+            </VBox.margin>
+        </ProgressBar>
+    </children>
+</VBox>
