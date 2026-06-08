@@ -1,113 +1,108 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 <?import java.net.URL?>
-<AnchorPane prefHeight="455.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+<AnchorPane prefHeight="540.0" prefWidth="660.0"
+            xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="zvezdo4et.project.controllers.SettingsController">
     <stylesheets>
         <URL value="@Settings.css"/>
     </stylesheets>
     <children>
-        <TabPane prefHeight="400.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE">
+        <TabPane AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0"
+                 AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0"
+                 tabClosingPolicy="UNAVAILABLE" styleClass="settings-tabs">
             <tabs>
-                <Tab text="Папки/Файлы">
+                <Tab text="  📋  Список  ">
                     <content>
-                        <VBox prefHeight="200.0" prefWidth="100.0">
+                        <VBox prefHeight="490.0" prefWidth="660.0" spacing="10.0">
+                            <padding>
+                                <Insets top="14.0" left="14.0" right="14.0" bottom="14.0"/>
+                            </padding>
                             <children>
-                                <ListView fx:id="fileListView" prefHeight="310.0" prefWidth="600.0"/>
-                                <HBox prefHeight="10.0" prefWidth="600.0">
-                                    <children>
-                                        <TextField fx:id="fileTextField" prefHeight="40.0" prefWidth="278.0">
-                                            <font>
-                                                <Font size="18.0"/>
-                                            </font>
-                                            <HBox.margin>
-                                                <Insets left="2.0"/>
-                                            </HBox.margin>
-                                        </TextField>
-                                        <Button fx:id="addFileBtn" minHeight="40.0" mnemonicParsing="false"
-                                                onAction="#addFileHande" text="Добавить" textAlignment="CENTER">
-                                            <font>
-                                                <Font name="Consolas" size="18.0"/>
-                                            </font>
-                                            <HBox.margin>
-                                                <Insets left="10.0"/>
-                                            </HBox.margin>
-                                        </Button>
-                                        <Button fx:id="deleteFileBtn" minHeight="40.0" mnemonicParsing="false"
-                                                onAction="#deleteFileHandle" text="Удалить выбранное"
-                                                textAlignment="CENTER">
-                                            <font>
-                                                <Font name="Consolas" size="9.0"/>
-                                            </font>
-                                            <HBox.margin>
-                                                <Insets left="10.0"/>
-                                            </HBox.margin>
-                                        </Button>
-                                    </children>
-                                    <VBox.margin>
-                                        <Insets top="5.0"/>
-                                    </VBox.margin>
+
+                                <Label text="Список игнорирования" styleClass="section-title"/>
+
+                                <ListView fx:id="ignoreListView" prefHeight="300.0" prefWidth="632.0"/>
+
+                                <!-- Ввод вручную -->
+                                <HBox spacing="8.0" prefHeight="42.0" alignment="CENTER_LEFT">
+                                    <TextField fx:id="inputTextField" prefHeight="42.0" HBox.hgrow="ALWAYS"
+                                               promptText="Введите имя или расширение...">
+                                        <font><Font name="Consolas" size="14.0"/></font>
+                                    </TextField>
+                                    <Button fx:id="addBtn" prefHeight="42.0" prefWidth="120.0"
+                                            mnemonicParsing="false" onAction="#addHandle" text="Добавить">
+                                        <font><Font name="Consolas" size="13.0"/></font>
+                                    </Button>
+                                    <Button fx:id="deleteBtn" prefHeight="42.0" prefWidth="180.0"
+                                            mnemonicParsing="false" onAction="#deleteHandle"
+                                            text="Удалить выбранное" styleClass="delete-btn">
+                                        <font><Font name="Consolas" size="12.0"/></font>
+                                    </Button>
                                 </HBox>
+
+                                <!-- Кнопка сохранения -->
+                                <Button fx:id="saveBtn" prefHeight="42.0"
+                                        mnemonicParsing="false" onAction="#saveHandle"
+                                        text="💾  Сохранить" styleClass="save-btn"
+                                        maxWidth="Infinity">
+                                    <font><Font name="Consolas" size="15.0"/></font>
+                                    <VBox.margin><Insets top="4.0"/></VBox.margin>
+                                </Button>
+
                             </children>
                         </VBox>
                     </content>
                 </Tab>
-                <Tab text="Расширения">
+
+                <Tab text="  🌲  Дерево  ">
                     <content>
-                        <VBox prefHeight="200.0" prefWidth="100.0">
+                        <VBox prefHeight="490.0" prefWidth="660.0" spacing="10.0">
+                            <padding>
+                                <Insets top="14.0" left="14.0" right="14.0" bottom="14.0"/>
+                            </padding>
                             <children>
-                                <ListView fx:id="extListView" prefHeight="310.0" prefWidth="600.0"/>
-                                <HBox prefHeight="10.0" prefWidth="600.0">
-                                    <children>
-                                        <TextField fx:id="extTextField" prefHeight="40.0" prefWidth="278.0">
-                                            <font>
-                                                <Font size="18.0"/>
-                                            </font>
-                                            <HBox.margin>
-                                                <Insets left="2.0"/>
-                                            </HBox.margin>
-                                        </TextField>
-                                        <Button fx:id="addExtBtn" minHeight="40.0" mnemonicParsing="false"
-                                                onAction="#addExtHandle" text="Добавить" textAlignment="CENTER">
-                                            <font>
-                                                <Font name="Consolas" size="18.0"/>
-                                            </font>
-                                            <HBox.margin>
-                                                <Insets left="10.0"/>
-                                            </HBox.margin>
-                                        </Button>
-                                        <Button fx:id="deleteExtBtn" minHeight="40.0" mnemonicParsing="false"
-                                                onAction="#deleteExtHandle" text="Удалить выбранное"
-                                                textAlignment="CENTER">
-                                            <font>
-                                                <Font name="Consolas" size="18.0"/>
-                                            </font>
-                                            <HBox.margin>
-                                                <Insets left="10.0"/>
-                                            </HBox.margin>
-                                        </Button>
-                                    </children>
-                                    <VBox.margin>
-                                        <Insets top="5.0"/>
-                                    </VBox.margin>
+
+                                <Label text="Выбор файлов/папок для исключения" styleClass="section-title"/>
+
+                                <Label wrapText="true" prefWidth="632.0"
+                                       text="Отметьте галочками нужные файлы и папки, затем нажмите «Добавить отмеченные». Уже добавленные элементы выделены серым."
+                                       styleClass="hint-label"/>
+
+                                <!-- Путь к папке -->
+                                <HBox spacing="8.0" prefHeight="36.0" alignment="CENTER_LEFT">
+                                    <Button fx:id="chooseRootBtn" prefHeight="36.0" prefWidth="180.0"
+                                            mnemonicParsing="false" onAction="#chooseRootForTree"
+                                            text="📂  Выбрать папку">
+                                        <font><Font name="Consolas" size="13.0"/></font>
+                                    </Button>
+                                    <Label fx:id="treeStatusLabel" text="Папка не выбрана"
+                                           styleClass="tree-hint-label" HBox.hgrow="ALWAYS"
+                                           maxWidth="440.0" wrapText="true"/>
                                 </HBox>
+
+                                <!-- Дерево -->
+                                <TreeView fx:id="ignoreTreeView" prefHeight="310.0" prefWidth="632.0"/>
+
+                                <!-- Кнопка добавления -->
+                                <Button fx:id="addSelectedFromTreeBtn" prefHeight="42.0"
+                                        mnemonicParsing="false" onAction="#addSelectedFromTree"
+                                        text="➕  Добавить отмеченные в игнор-лист" styleClass="tree-add-btn"
+                                        maxWidth="Infinity">
+                                    <font><Font name="Consolas" size="14.0"/></font>
+                                    <VBox.margin><Insets top="4.0"/></VBox.margin>
+                                </Button>
+
                             </children>
                         </VBox>
                     </content>
                 </Tab>
+
             </tabs>
         </TabPane>
-        <Button fx:id="saveBtn" layoutX="198.0" layoutY="405.0" mnemonicParsing="false" onAction="#saveHandle"
-                prefHeight="31.0" prefWidth="119.0" text="Сохранить" AnchorPane.leftAnchor="100.0"
-                AnchorPane.rightAnchor="100.0">
-            <font>
-                <Font name="Consolas" size="24.0"/>
-            </font>
-        </Button>
     </children>
 </AnchorPane>

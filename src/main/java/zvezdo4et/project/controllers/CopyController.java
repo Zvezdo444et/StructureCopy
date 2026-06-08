@@ -40,6 +40,10 @@ public class CopyController {
     private final LinkedHashSet<String> recentFolders = new LinkedHashSet<>();
     private File exportDirectory;
 
+    public File getSelectedRoot() {
+        return selectedRoot;
+    }
+
     private void showErrorMessage(String text) {
         errorLabel.setText(text);
         errorLabel.setVisible(true);
@@ -138,7 +142,6 @@ public class CopyController {
         File settingsDir = new File("settings");
         File configFile = new File(settingsDir, "ignore_config.xml");
 
-
         if (!settingsDir.exists()) {
             settingsDir.mkdir();
         }
@@ -151,16 +154,27 @@ public class CopyController {
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
             Document doc = dBuilder.parse(configFile);
+            doc.getDocumentElement().normalize();
 
             NodeList nList = doc.getElementsByTagName("item");
             for (int i = 0; i < nList.getLength(); i++) {
-                ignoreList.add(nList.item(i).getTextContent().trim());
+                String val = nList.item(i).getTextContent().trim();
+                if (val.isEmpty()) continue;
+                ignoreList.add(val);
+                ignoreExt.add(val.toLowerCase());
             }
 
             NodeList eList = doc.getElementsByTagName("ext");
             for (int i = 0; i < eList.getLength(); i++) {
-                ignoreExt.add(eList.item(i).getTextContent().trim().toLowerCase());
+                String val = eList.item(i).getTextContent().trim().toLowerCase();
+                if (!val.isEmpty()) {
+                    ignoreList.add(val);
+                    ignoreExt.add(val);
+                }
             }
+
+            System.out.println("[DEBUG] ignoreList: " + ignoreList);
+            System.out.println("[DEBUG] ignoreExt:  " + ignoreExt);
         } catch (Exception e) {
             System.err.println("Ошибка при чтении конфига: " + e.getMessage());
         }
@@ -168,6 +182,9 @@ public class CopyController {
 
     public void refreshTree() {
         loadIgnoreList();
+        if (selectedRoot != null) {
+            setupDirectory(selectedRoot);
+        }
     }
 
     private void loadRecentFolders() {
@@ -184,20 +201,14 @@ public class CopyController {
 
     private void addToRecent(File folder) {
         String path = folder.getAbsolutePath();
-
         List<String> list = new ArrayList<>(recentFolders);
-
         list.remove(path);
-
         list.add(0, path);
-
         if (list.size() > 10) {
             list = list.subList(0, 10);
         }
-
         recentFolders.clear();
         recentFolders.addAll(list);
-
         saveRecentToFile();
         renderRecentMenu();
     }
@@ -267,7 +278,7 @@ public class CopyController {
                         "    <item>.gradle</item>\n" +
                         "    <item>run</item>\n" +
                         "    <item>build</item>\n" +
-                        "    <ext>exe</ext>\n" +
+                        "    <item>exe</item>\n" +
                         "</ignore>";
         try {
             Files.writeString(file.toPath(), defaultConfig);
@@ -291,17 +302,31 @@ public class CopyController {
         selectedRoot = folder;
         loadIgnoreList();
 
-        CheckBoxTreeItem<File> rootItem = createTreeItem(folder);
+        CheckBoxTreeItem<File> rootItem = createTreeItem(folder, false);
         rootItem.setExpanded(true);
         folderTree.setRoot(rootItem);
-        folderTree.setCellFactory(CheckBoxTreeCell.forTreeView());
+
+        folderTree.setCellFactory(tv -> new CheckBoxTreeCell<>() {
+            @Override
+            public void updateItem(File item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) { setText(null); setStyle(""); return; }
+                setText(item.getName());
+                CheckBoxTreeItem<File> treeItem = (CheckBoxTreeItem<File>) getTreeItem();
+                if (treeItem != null && treeItem.isIndependent()) {
+                    setStyle("-fx-text-fill: #666688; -fx-font-style: italic;");
+                } else {
+                    setStyle("");
+                }
+            }
+        });
 
         if (templateMenu != null) {
             templateMenu.setDisable(false);
         }
     }
 
-    private CheckBoxTreeItem<File> createTreeItem(File file) {
+    private CheckBoxTreeItem<File> createTreeItem(File file, boolean ignored) {
         CheckBoxTreeItem<File> item = new CheckBoxTreeItem<>(file) {
             @Override
             public String toString() {
@@ -310,51 +335,52 @@ public class CopyController {
         };
 
         item.setSelected(false);
-        item.setIndependent(true);
+        item.setIndependent(ignored);
 
-        item.selectedProperty().addListener((obs, oldVal, isSelected) -> {
-            if (file.isDirectory()) {
-                selectChildrenRecursive(item, isSelected);
-            }
-        });
+        if (ignored) {
+            item.selectedProperty().addListener((obs, wasSelected, isSelected) -> {
+                if (isSelected) item.setSelected(false);
+            });
+        }
 
         if (file.isDirectory()) {
             File[] files = file.listFiles();
             if (files != null) {
+                Arrays.sort(files, (a, b) -> {
+                    if (a.isDirectory() && !b.isDirectory()) return -1;
+                    if (!a.isDirectory() && b.isDirectory()) return 1;
+                    return a.getName().compareToIgnoreCase(b.getName());
+                });
                 for (File child : files) {
-                    item.getChildren().add(createTreeItem(child));
+                    boolean childIgnored = ignored || shouldIgnore(child);
+                    item.getChildren().add(createTreeItem(child, childIgnored));
                 }
             }
         }
         return item;
     }
 
-    private void selectChildrenRecursive(CheckBoxTreeItem<File> parent, boolean state) {
-        for (TreeItem<File> child : parent.getChildren()) {
-            CheckBoxTreeItem<File> checkChild = (CheckBoxTreeItem<File>) child;
-            File file = checkChild.getValue();
-
-            String name = file.getName();
-            String ext = getFileExtension(file);
-
-            if (state) {
-                if (!ignoreList.contains(name) && !ignoreExt.contains(ext)) {
-                    checkChild.setSelected(true);
-                }
-            } else {
-                checkChild.setSelected(false);
-            }
-
-            if (!checkChild.getChildren().isEmpty()) {
-                selectChildrenRecursive(checkChild, state);
-            }
+    private boolean shouldIgnore(File file) {
+        String name = file.getName();
+        if (ignoreList.contains(name)) return true;
+        if (file.isFile()) {
+            if (ignoreExt.contains(getLastExtension(name).toLowerCase())) return true;
+            if (ignoreExt.contains(getFullExtension(name).toLowerCase())) return true;
         }
+        return false;
     }
 
-    private String getFileExtension(File file) {
-        String name = file.getName();
-        int dotIndex = name.lastIndexOf('.');
-        return (dotIndex > 0) ? name.substring(dotIndex + 1).toLowerCase() : "";
+    private String getLastExtension(String name) {
+        int dot = name.lastIndexOf('.');
+        return (dot > 0 && dot < name.length() - 1) ? name.substring(dot + 1) : "";
+    }
+
+    private String getFullExtension(String name) {
+        int firstDot = name.indexOf('.');
+        if (firstDot > 0 && firstDot < name.length() - 1) {
+            return name.substring(firstDot + 1);
+        }
+        return "";
     }
 
     private void openFile(File file) {
@@ -387,7 +413,7 @@ public class CopyController {
         FileChooser fc = new FileChooser();
         fc.setTitle("Сохранить результат");
         fc.setInitialDirectory(getDesktopPath());
-        fc.setInitialFileName("Result.txt");
+        fc.setInitialFileName("Code.txt");
         fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("Текстовые файлы (*.txt)", "*.txt"));
         File saveFile = fc.showSaveDialog(convertBtn.getScene().getWindow());
 
@@ -438,6 +464,7 @@ public class CopyController {
     }
 
     private void collectSelectedFiles(CheckBoxTreeItem<File> item, List<File> list) {
+        if (shouldIgnore(item.getValue())) return;
         if (item.isSelected() || item.isIndeterminate()) {
             if (item.getValue().isFile() && item.isSelected()) {
                 list.add(item.getValue());
@@ -450,7 +477,6 @@ public class CopyController {
 
     @FXML
     void onExportStructure(ActionEvent event) {
-
         if (folderTree.getRoot() == null) {
             showErrorMessage("Вы не выбрали папку проекта!");
             return;
@@ -488,7 +514,6 @@ public class CopyController {
         if (!item.isSelected() && !item.isIndeterminate()) return;
 
         sb.append("  ".repeat(depth));
-
         String prefix = item.getValue().isDirectory() ? "[DIR] " : "|-- ";
         sb.append(prefix).append(item.getValue().getName()).append("\n");
 
@@ -510,12 +535,11 @@ public class CopyController {
 
             SettingsController settingsController = loader.getController();
             settingsController.setMainController(this);
+            settingsController.tryAutoLoadTree();
 
             Stage settingsStage = new Stage();
             settingsStage.setTitle("Настройка конфига");
-
             settingsStage.initOwner(settingsView.getScene().getWindow());
-
             settingsStage.initModality(javafx.stage.Modality.APPLICATION_MODAL);
 
             var iconStream = getClass().getResourceAsStream("/zvezdo4et/project/images/icon.png");
@@ -559,7 +583,7 @@ public class CopyController {
                             }
 
                             File saveDir = getSaveDirectory();
-                            File outputFile = new File(saveDir, folderName + "_Result.txt");
+                            File outputFile = new File(saveDir, folderName + "_Code.txt");
                             Files.writeString(outputFile.toPath(), content.toString());
                             openFileInEditor(outputFile);
                         }
@@ -605,8 +629,12 @@ public class CopyController {
         if (files == null) return;
         for (File f : files) {
             String name = f.getName();
-            String ext = getFileExtension(f);
-            if (ignoreList.contains(name) || ignoreExt.contains(ext)) continue;
+            if (ignoreList.contains(name)) continue;
+            if (f.isFile()) {
+                String lastExt = getLastExtension(name);
+                String fullExt = getFullExtension(name);
+                if (ignoreExt.contains(lastExt) || ignoreExt.contains(fullExt)) continue;
+            }
             if (f.isFile()) {
                 result.add(f);
             } else if (f.isDirectory()) {
@@ -614,7 +642,6 @@ public class CopyController {
             }
         }
     }
-
 
     private void openFileInEditor(File file) {
         try {
@@ -707,5 +734,4 @@ public class CopyController {
         Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/zvezdo4et/project/images/settings.png")));
         settingsView.setImage(image);
     }
-
 }
